@@ -18,7 +18,6 @@ class Game:
     if self.game_ready:
       print("yo game has already been setup! wyd??")
       return
-
     
     self.team_2 = player_list
     if len(self.team_1) == 5:

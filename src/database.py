@@ -10,6 +10,7 @@ class Database:
 
     # TODO(manyu): Create a player class rather than this shitty list
     self.players[player] = [1000, 0]
+    print("Added player: " + player + " to database.")
 
   def SetPlayerElo(self, player, elo):
     if player not in self.players:
