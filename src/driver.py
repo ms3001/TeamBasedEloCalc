@@ -26,7 +26,7 @@ def StartDecisionLoop():
 
   elif val == 'q':
     print("Thanks for using this tool :)")
-    return
+    exit()
 
   elif val == 'a':
     player = input("Enter new player name:\n")
