@@ -1,3 +1,5 @@
+from player import Player
+
 class Database:
   """ A class to store all players and associated information"""
   def __init__(self):
@@ -9,7 +11,7 @@ class Database:
       return
 
     # TODO(manyu): Create a player class rather than this shitty list
-    self.players[player] = [1000, 0]
+    self.players[player] = Player(player) 
     print("Added player: " + player + " to database.")
 
   def SetPlayerElo(self, player, elo):
@@ -17,8 +19,9 @@ class Database:
       print("WH :OMEGALUL:??? This player does not exist.")
       return
 
-    self.players[player][0]= elo
+    self.players[player].UpdateElo(elo)
 
   def PrintDatabase(self):
     for player in self.players:
-      print(player + ":" + str(self.players[player][0]) + ":" + str(self.players[player][1]))
+      print("Name: " + str(self.players[player].name) + " ELO:" + str(self.players[player].elo) + 
+      " Games played: " + str(self.players[player].games_played))
