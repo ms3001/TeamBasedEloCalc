@@ -1,3 +1,4 @@
+from util import GetNewEloScore
 class Game:
   """ A class to represent a single game"""
   def __init__(self):
@@ -26,7 +27,7 @@ class Game:
   def GamePrediction(self):
     if not self.game_ready:
       print("Predicting that you will lose, because this game is not ready yet.")
-
+    
     # output likelihood of team_1/team_2 winning
 
   def FinishGame(self, winner): 
@@ -35,6 +36,19 @@ class Game:
       return
 
     # calculate new scores
+    team_1_avg = sum(player.elo for player in self.team_1) / 5.0
+    team_2_avg = sum(player.elo for player in self.team_2) / 5.0 #TODO(ms3001): add config file to set team size and other fields
+
+    for player in self.team_1:
+      player.elo = GetNewEloScore(player.elo, team_2_avg, True if winner == 1 else False, player.games_played)
+      print(player.elo)
+    for player in self.team_2:
+      player.elo = GetNewEloScore(player.elo, team_1_avg, True if winner == 2 else False, player.games_played)
+      print(player.elo)
+
+
+
+
 
     # return the list of players mapping to new elo
 

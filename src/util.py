@@ -14,4 +14,4 @@ def GetNewEloScore(self_elo, enemy_elo, win, games_played, k_factor = 60, min_fa
   expected_score = 1 / (1 + pow(10, (enemy_elo - self_elo) / 400))
   return round(self_elo + mult_factor * (actual_score - expected_score))
 
-print(GetNewEloScore(1000, 1000, False, 20, 60, 15))
+#print(GetNewEloScore(1000, 1000, False, 20, 60, 15))
