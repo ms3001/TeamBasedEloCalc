@@ -1,3 +1,5 @@
+import pickle
+
 from database import Database
 from game import Game
 
@@ -22,7 +24,10 @@ def StartDecisionLoop():
     "a: Add player.\n" + 
     "g: Get database.\n" +
     "s: Setup game.\n" + 
-    "w: Enter who won the game.")
+    "f: Enter who won the game.\n"
+    "r: Read player db from file.\n"
+    "w: Write player db to file.\n"
+    )
     
     #input("Press enter to continue.\n")
     StartDecisionLoop()
@@ -43,8 +48,16 @@ def StartDecisionLoop():
     print ("Staring game setup.")
     SetupGame()
 
-  elif val == 'w':
+  elif val == 'f':
     FinishGame()
+
+  elif val == 'r':
+    val = input("Enter filename to read from:\n")
+    ReadFromFile(val)
+
+  elif val == 'w':
+    val = input("Enter filename to write to:\n")
+    WriteToFile(val)
 
   elif val == 't':
     print("Initializing for testing.")
@@ -61,17 +74,18 @@ def StartDecisionLoop():
 
 
 def ReadFromFile(filename):
-  print("Attempting to read from " + filename)
-  #TODO(manyu): finish this
+  print("Attempting to read from: " + filename)
+  global db 
+  db = pickle.load(open(filename, "rb"))
 
 def WriteToFile(filename):
-  print("Attempting to write to file" + filename)
-  #TODO(manyu): finish this
+  print("Attempting to write to file: " + filename)
+  pickle.dump(db, open( filename, "wb" ) )
 
 def AddPlayer(player):
   print("Attempting to add " + player + " to database.")
   db.AddNewPlayer(player)
-  
+ 
 def TestingSetup():
   for i in range(10):
     AddPlayer("p"+str(i))
@@ -118,15 +132,9 @@ def FinishGame():
   print("Team 1: " + ', '.join([player.name for player in game.team_1]))
   print("Team 2: " + ', '.join([player.name for player in game.team_2]))
   winner = int(input("Enter '1' if team 1 won, or '2' if team 2."))
-  game.FinishGame(winner)
-
-    
-
-    
-
-
-  
-
+  if game.FinishGame(winner):
+    print("Game concluded!")
+    game = Game()
 
 
 if __name__ == "__main__":

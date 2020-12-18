@@ -33,12 +33,12 @@ class Game:
   def FinishGame(self, winner): 
     if not self.game_ready:
       print("You cannot finish what has not been started - yone probably")
-      return
+      return False
 
-    # calculate new scores
     team_1_avg = sum(player.elo for player in self.team_1) / 5.0
     team_2_avg = sum(player.elo for player in self.team_2) / 5.0 #TODO(ms3001): add config file to set team size and other fields
 
+    # calculate new scores
     for player in self.team_1:
       player.elo = GetNewEloScore(player.elo, team_2_avg, True if winner == 1 else False, player.games_played)
       print(player.elo)
@@ -46,11 +46,7 @@ class Game:
       player.elo = GetNewEloScore(player.elo, team_1_avg, True if winner == 2 else False, player.games_played)
       print(player.elo)
 
-
-
-
-
-    # return the list of players mapping to new elo
+    return True
 
   def PrintGameState(self):
     print("Team 1:")

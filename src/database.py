@@ -5,6 +5,12 @@ class Database:
   def __init__(self):
     self.players = {}
 
+  def __getstate__(self):
+    return self.__dict__.copy()
+
+  def __setstate__(self, state):
+    self.__dict__.update(state)
+
   def AddNewPlayer(self, player):
     if player in self.players:
       print("Nice try NERD this player already exists!")
@@ -20,7 +26,7 @@ class Database:
       return
 
     self.players[player].UpdateElo(elo)
-
+  
   def PrintDatabase(self):
     for player in self.players:
       print("Name: " + str(self.players[player].name) + " ELO:" + str(self.players[player].elo) + 
