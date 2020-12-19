@@ -1,5 +1,3 @@
-
-
 import requests
 import pprint
 from bs4 import BeautifulSoup
@@ -14,6 +12,7 @@ if page.status_code == 200:
 elif page.status_code == 404:
     print('Not Found.')
 
+#u will get a merge conflict
 
 # beautiful soup object that takes html content earlier as input
 # soup = BeautifulSoup(page.content, 'html.parser')
@@ -35,6 +34,8 @@ elif page.status_code == 404:
 #     print(company_elem.text.strip())
 #     print(location_elem.text.strip())
 #     print()
+
+#u will get another merge conflict
 
 # python_jobs = results.find_all('h2', string=lambda text: 'japan' in text.lower())
 # for p_job in python_jobs:
