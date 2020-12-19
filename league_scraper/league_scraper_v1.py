@@ -42,3 +42,5 @@ elif page.status_code == 404:
 #     link = p_job.find('a')['href']
 #     print(p_job.text.strip())
 #     print(f"Apply here: {link}\n")
+
+# allo
