@@ -1,11 +1,8 @@
-import requests
 import pprint
-import mechanize
 import re #regular expression
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
-from getpass import getpass
 
 URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats'
 # URL = 'https://realpython.com/beautiful-soup-web-scraper-python/'
@@ -20,7 +17,7 @@ URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954
 #options.add_argument('--headless')
 browser = webdriver.Chrome()
 browser.maximize_window()
-browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats")
+browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171")
 signinbutton = browser.find_element_by_css_selector(".riotbar-account-action")
 signinbutton.click()
 
