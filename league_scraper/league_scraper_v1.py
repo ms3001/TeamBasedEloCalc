@@ -19,23 +19,29 @@ URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954
 #options = webdriver.ChromeOptions()
 #options.add_argument('--headless')
 browser = webdriver.Chrome()
-browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats'")
+browser.maximize_window()
+browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats")
 signinbutton = browser.find_element_by_css_selector(".riotbar-account-action")
 signinbutton.click()
 
-#username = browser.find_element_by_name("username")
-#username.clear();
-#username.send_keys("BRODesuex")
+usernametext = input("Username:")
+passwordtext = input("Password:")
 
-#password = browser.find_element_by_name("password")
-#password.clear();
+username = browser.find_element_by_name("username")
+username.clear();
+#username.send_keys("BRODesuex")
+username.send_keys(usernametext)
+
+password = browser.find_element_by_name("password")
+password.clear();
 #password.send_keys("havefunbr0") #boost me please
-time.sleep(15)
+password.send_keys(passwordtext)
+#time.sleep(15)
 
 submit = browser.find_element_by_css_selector(".mobile-button__submit")
 submit.click()
 
-time.sleep(5) #sleep while page loads
+time.sleep(10) #sleep while page loads
 
 page_source = browser.page_source
 soup = BeautifulSoup(page_source, 'html.parser')
