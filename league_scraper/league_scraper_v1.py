@@ -1,46 +1,59 @@
 import requests
 import pprint
+import mechanize
+import re #regular expression
+import time
+from selenium import webdriver
 from bs4 import BeautifulSoup
 from getpass import getpass
 
-URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3700380075/213681463?tab=stats'
+URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats'
 # URL = 'https://realpython.com/beautiful-soup-web-scraper-python/'
-page = requests.get(URL)
+#page = requests.get(URL)
 
-if page.status_code == 200:
-    print('Success!')
-elif page.status_code == 404:
-    print('Not Found.')
+#if page.status_code == 200:
+#    print('Success!')
+#elif page.status_code == 404:
+#    print('Not Found.')
 
-#u will get a merge conflict
+#options = webdriver.ChromeOptions()
+#options.add_argument('--headless')
+browser = webdriver.Chrome()
+browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954943/207962171?tab=stats'")
+signinbutton = browser.find_element_by_css_selector(".riotbar-account-action")
+signinbutton.click()
 
-# beautiful soup object that takes html content earlier as input
-# soup = BeautifulSoup(page.content, 'html.parser')
+#username = browser.find_element_by_name("username")
+#username.clear();
+#username.send_keys("BRODesuex")
 
-# results = soup.find(id='main')
-# print(soup.prettify())
-# job_elems = results.find_all('section', class_='card-content')
-# title_elem = soup.find('div', class_='grid-cell-298')
-# print(title_elem)
+#password = browser.find_element_by_name("password")
+#password.clear();
+#password.send_keys("havefunbr0") #boost me please
+time.sleep(15)
 
+submit = browser.find_element_by_css_selector(".mobile-button__submit")
+submit.click()
 
-# for job_elem in job_elems:
-#     title_elem = job_elem.find('h2', class_='title')
-#     company_elem = job_elem.find('div', class_='company')
-#     location_elem = job_elem.find('div', class_='location')
-#     if None in (title_elem, company_elem, location_elem):
-#         continue
-#     print(title_elem.text.strip())
-#     print(company_elem.text.strip())
-#     print(location_elem.text.strip())
-#     print()
+time.sleep(5) #sleep while page loads
 
-#u will get another merge conflict
+page_source = browser.page_source
+soup = BeautifulSoup(page_source, 'html.parser')
 
-# python_jobs = results.find_all('h2', string=lambda text: 'japan' in text.lower())
-# for p_job in python_jobs:
-#     link = p_job.find('a')['href']
-#     print(p_job.text.strip())
-#     print(f"Apply here: {link}\n")
+#test print statements
+#print(soup.prettify())
+#print(soup.get_text())
+#print("---------BREAK----------")
 
-# allo
+playersList = []
+for tag in soup.find_all(class_ = "champion-col name"):
+	playersList.append(tag.find('a').get_text())
+
+gameConclusions = soup.find_all(class_ = "game-conclusion")
+print(gameConclusions[0].get_text())
+for player in playersList[:5]:
+	print(player)
+print(gameConclusions[1].get_text())
+for player in playersList[5:]:
+	print(player)
+
