@@ -1,5 +1,8 @@
-*.pyc
-
 # folders to ignore 
-.vscode/
-*__pycache__/
+bin/
+lib/
+
+#config
+*.cfg
+
+
