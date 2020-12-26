@@ -1,4 +1,7 @@
 import pickle
+import itertools
+import sys
+
 from league_scraper_v1 import scrapeMatchHistoryUrl
 from database import Database
 from game import Game
@@ -43,7 +46,7 @@ def StartDecisionLoop():
 
   elif val == 'g':
     print("Current database: ")
-    db.PrintDatabaseSortedElo()
+    db.PrintDatabaseSortedByElo()
 
   elif val == 's':
     print ("Starting game setup.")
@@ -102,6 +105,7 @@ def SetupGame():
     print("Not enough players to start a game! Must have at least 10.")
     return
   
+  pList = []
   team_1 = []
   team_2 = []
   
@@ -112,25 +116,37 @@ def SetupGame():
     players_by_index[i] = player
     i += 1
 
-  for _ in range(5):
+  totalElo = 0
+  for _ in range(10):
     print("Players to select from: " + ', '.join(str(key) + ":" + players_by_index[key].name for key in players_by_index.keys()))
 
-    index = int(input("Please enter the player index of the next player for team 1: " + "\n"))
-    team_1.append(players_by_index[index])
+    index = int(input("Please enter the player index of the next player: " + "\n"))
+    pList.append(players_by_index[index])
+    totalElo += players_by_index[index].elo
     players_by_index.pop(index)
-    print("Selected players for team 1: " + ', '.join([player.name for player in team_1]))
 
-  for _ in range(5):
-    print("Players to select from: " + ', '.join(str(key) + ":" + players_by_index[key].name for key in players_by_index.keys()))
+  minEloDiff = sys.maxsize
+  for i in itertools.combinations(pList, 5):
+    team1Elo = i[0].elo + i[1].elo + i[2].elo + i[3].elo + i[4].elo
+    if (abs(team1Elo*2 - totalElo) < minEloDiff):
+      minEloDiff = abs(team1Elo*2 - totalElo)
+      minEloTeam = i
 
-    index = int(input("Please enter the player index of the next player for team 2: " + "\n"))
-    team_2.append(players_by_index[index])
-    players_by_index.pop(index)
-    print("Selected players for team 2: " + ', '.join([player.name for player in team_2]))
-  
+  team1Elo = 0
+  team2Elo = 0
+  for player in minEloTeam:
+    team_1.append(player)
+    pList.remove(player)
+    team1Elo += player.elo
+
+  for player in pList:
+    team_2.append(player)
+    team2Elo += player.elo
+
   print("Team 1: " + ', '.join([player.name for player in team_1]))
+  print("Team 1 Total Elo: " + str(team1Elo))
   print("Team 2: " + ', '.join([player.name for player in team_2]))
-  print("Would you like to restart team selection?") #TODO(ms3001): Implement this.
+  print("Team 2 Total Elo: " + str(team2Elo))
 
   game.SetTeam1(team_1)
   game.SetTeam2(team_2)

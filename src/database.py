@@ -38,7 +38,7 @@ class Database:
     else:
       raise IndexError("Player Not Found")
 
-  def PrintDatabaseSortedElo(self):
+  def PrintDatabaseSortedByElo(self):
     plist = []
     for player in self.players:
       plist.append(self.players[player])

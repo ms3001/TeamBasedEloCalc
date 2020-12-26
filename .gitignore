@@ -6,3 +6,5 @@ lib/
 *.cfg
 
 *.DS_Store
+
+*.pyc
