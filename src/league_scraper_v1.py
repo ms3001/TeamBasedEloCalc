@@ -13,6 +13,9 @@ URL = 'https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3710954
 #elif page.status_code == 404:
 #    print('Not Found.')
 
+usernametext = input("Username:")
+passwordtext = input("Password:")
+
 #options = webdriver.ChromeOptions()
 #options.add_argument('--headless')
 browser = webdriver.Chrome()
@@ -21,8 +24,6 @@ browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3
 signinbutton = browser.find_element_by_css_selector(".riotbar-account-action")
 signinbutton.click()
 
-usernametext = input("Username:")
-passwordtext = input("Password:")
 
 username = browser.find_element_by_name("username")
 username.clear();
@@ -42,6 +43,9 @@ time.sleep(10) #sleep while page loads
 
 page_source = browser.page_source
 soup = BeautifulSoup(page_source, 'html.parser')
+
+browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3695072658/207962171?tab=overview")
+browser.get("https://matchhistory.na.leagueoflegends.com/en/#match-details/NA1/3695072658/207962171?tab=overview")
 
 #test print statements
 #print(soup.prettify())

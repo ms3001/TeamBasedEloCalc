@@ -5,4 +5,4 @@ lib/
 #config
 *.cfg
 
-
+*.DS_Store
