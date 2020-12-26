@@ -1,5 +1,5 @@
 import pickle
-
+from league_scraper_v1 import scrapeMatchHistoryUrl
 from database import Database
 from game import Game
 
@@ -27,6 +27,7 @@ def StartDecisionLoop():
     "f: Enter who won the game.\n"
     "r: Read player db from file.\n"
     "w: Write player db to file.\n"
+    "m: Scrape a matchhistory.na.leagueoflegends.com URL.\n"
     )
     
     #input("Press enter to continue.\n")
@@ -62,6 +63,9 @@ def StartDecisionLoop():
   elif val == 't':
     print("Initializing for testing.")
     TestingSetup()
+
+  elif val == 'm':
+    ScrapeGame();
 
 
   else:
@@ -129,6 +133,7 @@ def SetupGame():
   game.SetTeam2(team_2)
 
 def FinishGame():
+  global game
   print("Team 1: " + ', '.join([player.name for player in game.team_1]))
   print("Team 2: " + ', '.join([player.name for player in game.team_2]))
   winner = int(input("Enter '1' if team 1 won, or '2' if team 2."))
@@ -136,6 +141,30 @@ def FinishGame():
     print("Game concluded!")
     game = Game()
 
+def ScrapeGame():
+  global game
+  matchUrl = input("Input the URL of a match:")
+  print("Input the login of a player from that match")
+  usernametext = input("Username:")
+  passwordtext = input("Password:")
+  result = scrapeMatchHistoryUrl(usernametext, passwordtext, matchUrl)
+
+  for player in result[1]:
+    db.AddNewPlayer(player)
+
+  team_1 = []
+  team_2 = []
+  for player in result[1][:5]:
+    team_1.append(db.GetPlayer(player))
+  for player in result[1][5:]:
+    team_2.append(db.GetPlayer(player))
+
+  game.SetTeam1(team_1)
+  game.SetTeam2(team_2)
+
+  game.FinishGame(int(result[0]))
+
+  game = Game()
 
 if __name__ == "__main__":
   main()

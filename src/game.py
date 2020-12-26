@@ -40,11 +40,11 @@ class Game:
 
     # calculate new scores
     for player in self.team_1:
-      player.elo = GetNewEloScore(player.elo, team_2_avg, True if winner == 1 else False, player.games_played)
-      print(player.elo)
+      player.UpdateElo(GetNewEloScore(player.elo, team_2_avg, True if winner == 1 else False, player.games_played))
+      #print(player.elo)
     for player in self.team_2:
-      player.elo = GetNewEloScore(player.elo, team_1_avg, True if winner == 2 else False, player.games_played)
-      print(player.elo)
+      player.UpdateElo(GetNewEloScore(player.elo, team_1_avg, True if winner == 2 else False, player.games_played))
+      #print(player.elo)
 
     return True
 
