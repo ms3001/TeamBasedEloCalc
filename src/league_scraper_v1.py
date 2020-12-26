@@ -58,4 +58,3 @@ def scrapeMatchHistoryUrl(usernametext, passwordtext, matchUrl):
 	resultList.append(playersList) #resultList[1] = playersList (first 5 players are team 1)
 
 	return resultList
-

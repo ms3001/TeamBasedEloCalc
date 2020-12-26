@@ -42,11 +42,11 @@ def StartDecisionLoop():
     AddPlayer(player)
 
   elif val == 'g':
-    print("Current datbase: ")
-    db.PrintDatabase()
+    print("Current database: ")
+    db.PrintDatabaseSortedElo()
 
   elif val == 's':
-    print ("Staring game setup.")
+    print ("Starting game setup.")
     SetupGame()
 
   elif val == 'f':
@@ -65,7 +65,10 @@ def StartDecisionLoop():
     TestingSetup()
 
   elif val == 'm':
-    ScrapeGame();
+    ScrapeGame()
+
+  elif val == 'ml':
+    ScrapeGameList()
 
 
   else:
@@ -165,6 +168,37 @@ def ScrapeGame():
   game.FinishGame(int(result[0]))
 
   game = Game()
+
+def ScrapeGameList():
+  global game
+
+  print("Input the login of a player from these matches")
+  usernametext = input("Username:")
+  passwordtext = input("Password:")
+
+  f = open("inputUrls.txt", "r")
+  for url in f:
+    print("reading from: " + url)
+    result = scrapeMatchHistoryUrl(usernametext, passwordtext, url)
+
+    for player in result[1]:
+      db.AddNewPlayer(player)
+
+    team_1 = []
+    team_2 = []
+    for player in result[1][:5]:
+      team_1.append(db.GetPlayer(player))
+    for player in result[1][5:]:
+      team_2.append(db.GetPlayer(player))
+
+    game.SetTeam1(team_1)
+    game.SetTeam2(team_2)
+
+    game.FinishGame(int(result[0]))
+
+    game = Game()
+
+    WriteToFile("dbFile.txt")
 
 if __name__ == "__main__":
   main()
