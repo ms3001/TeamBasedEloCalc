@@ -1,5 +1,13 @@
-*.pyc
-
 # folders to ignore 
+bin/
+lib/
 .vscode/
 *__pycache__/
+
+#config
+*.cfg
+
+*.DS_Store
+
+*.pyc
+

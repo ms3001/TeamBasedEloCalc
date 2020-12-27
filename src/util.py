@@ -15,3 +15,11 @@ def GetNewEloScore(self_elo, enemy_elo, win, games_played, k_factor = 60, min_fa
   return round(self_elo + mult_factor * (actual_score - expected_score))
 
 #print(GetNewEloScore(1000, 1000, False, 20, 60, 15))
+
+def checkDup(playername):
+  if (playername == 'JackFrostStudios'):
+    return 'Deus sanat'
+  elif (playername == 'Shantffrey'):
+    return 'meleeTopLUL'
+  else:
+    return playername
