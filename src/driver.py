@@ -3,6 +3,7 @@ import itertools
 import sys
 
 from league_scraper_v1 import scrapeMatchHistoryUrl
+from league_scraper_v1 import scrapeMatchHistoryUrlList
 from database import Database
 from game import Game
 
@@ -193,28 +194,30 @@ def ScrapeGameList():
   passwordtext = input("Password:")
 
   f = open("inputUrls.txt", "r")
+  urlList = []
   for url in f:
-    print("reading from: " + url)
-    result = scrapeMatchHistoryUrl(usernametext, passwordtext, url)
+    urlList.append(url)
 
-    for player in result[1]:
+  matchListData = scrapeMatchHistoryUrlList(usernametext, passwordtext, urlList)
+
+  for match in matchListData:
+    for player in match[1]:
       db.AddNewPlayer(player)
 
     team_1 = []
     team_2 = []
-    for player in result[1][:5]:
+    for player in match[1][:5]:
       team_1.append(db.GetPlayer(player))
-    for player in result[1][5:]:
+    for player in match[1][5:]:
       team_2.append(db.GetPlayer(player))
-
     game.SetTeam1(team_1)
     game.SetTeam2(team_2)
 
-    game.FinishGame(int(result[0]))
+    game.FinishGame(int(match[0]))
 
     game = Game()
 
-    WriteToFile("dbFile.txt")
+    #WriteToFile("dbFile.txt")
 
 if __name__ == "__main__":
   main()

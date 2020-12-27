@@ -1,4 +1,5 @@
 from player import Player
+from util import checkDup
 
 class Database:
   """ A class to store all players and associated information"""
@@ -12,6 +13,7 @@ class Database:
     self.__dict__.update(state)
 
   def AddNewPlayer(self, player):
+    player = checkDup(player)
     if player in self.players:
       #print("Nice try NERD this player already exists!")
       return
@@ -21,6 +23,7 @@ class Database:
     #print("Added player: " + player + " to database.")
 
   def SetPlayerElo(self, player, elo):
+    player = checkDup(player)
     if player not in self.players:
       print("WH :OMEGALUL:??? This player does not exist.")
       return
@@ -33,6 +36,7 @@ class Database:
       " Games played: " + str(self.players[player].games_played))
 
   def GetPlayer(self, player):
+    player = checkDup(player)
     if player in self.players:
       return self.players[player]
     else:
