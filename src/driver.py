@@ -162,7 +162,6 @@ def FinishGame():
     game = Game()
 
 def ScrapeGame():
-  global game
   matchUrl = input("Input the URL of a match:")
   print("Input the login of a player from that match")
   usernametext = input("Username:")
@@ -172,52 +171,42 @@ def ScrapeGame():
   for player in result[1]:
     db.AddNewPlayer(player)
 
-  team_1 = []
-  team_2 = []
-  for player in result[1][:5]:
-    team_1.append(db.GetPlayer(player))
-  for player in result[1][5:]:
-    team_2.append(db.GetPlayer(player))
-
-  game.SetTeam1(team_1)
-  game.SetTeam2(team_2)
-
-  game.FinishGame(int(result[0]))
-
-  game = Game()
+  SimulateGame(result)
 
 def ScrapeGameList():
-  global game
-
   print("Input the login of a player from these matches")
   usernametext = input("Username:")
   passwordtext = input("Password:")
 
-  f = open("inputUrls.txt", "r")
+  f = open("data/inputUrls.txt", "r")
   urlList = []
   for url in f:
     urlList.append(url)
+  f.close()
+  print(urlList)
 
   matchListData = scrapeMatchHistoryUrlList(usernametext, passwordtext, urlList)
 
   for match in matchListData:
     for player in match[1]:
       db.AddNewPlayer(player)
+    SimulateGame(match)
 
-    team_1 = []
-    team_2 = []
-    for player in match[1][:5]:
-      team_1.append(db.GetPlayer(player))
-    for player in match[1][5:]:
-      team_2.append(db.GetPlayer(player))
-    game.SetTeam1(team_1)
-    game.SetTeam2(team_2)
+def SimulateGame(match):
+  global game
 
-    game.FinishGame(int(match[0]))
+  team_1 = []
+  team_2 = []
+  for player in match[1][:5]:
+    team_1.append(db.GetPlayer(player))
+  for player in match[1][5:]:
+    team_2.append(db.GetPlayer(player))
+  game.SetTeam1(team_1)
+  game.SetTeam2(team_2)
 
-    game = Game()
+  game.FinishGame(int(match[0]))
 
-    #WriteToFile("dbFile.txt")
+  game = Game()
 
 if __name__ == "__main__":
   main()
