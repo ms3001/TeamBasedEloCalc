@@ -32,6 +32,7 @@ def StartDecisionLoop():
     "r: Read player db from file.\n"
     "w: Write player db to file.\n"
     "m: Scrape a matchhistory.na.leagueoflegends.com URL.\n"
+    "ml: Scrape a list of games from a textfile.\n"
     )
     
     #input("Press enter to continue.\n")
