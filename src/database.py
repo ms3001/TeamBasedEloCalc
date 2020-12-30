@@ -1,3 +1,6 @@
+import plotly.graph_objects as go
+#import plotly.express as px
+
 from player import Player
 from util import checkDup
 
@@ -47,3 +50,14 @@ class Database:
     plist.sort(key=lambda x: x.elo, reverse=True)
     for p in plist:
       p.PrintPlayer()
+
+  def GenerateGraphs(self):
+    sorted_dict = dict(sorted(self.players.items(), key=lambda item: item[1].elo))
+
+    player_names = list(sorted_dict.keys())
+    player_elo = list(p.elo for p in sorted_dict.values())
+    player_games = list(p.games_played for p in sorted_dict.values())
+
+    fig = go.Figure([go.Bar(x=player_names, y = player_elo, text=player_elo, textposition='auto', marker=dict(color = player_games, colorscale='burg'))])
+    fig.show()
+

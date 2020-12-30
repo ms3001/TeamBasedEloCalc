@@ -146,7 +146,7 @@ def scrapeMatchHistoryUrlList(usernametext, passwordtext, matchUrlList):
 		resultList.append(winner) #resultList[0] = winner
 		resultList.append(playersList) #resultList[1] = playersList (first 5 players are team 1)
 		finalresultList.append(resultList)
-		browser.close()
+	browser.close()
 	return finalresultList
 
 
