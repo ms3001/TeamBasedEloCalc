@@ -27,6 +27,7 @@ def StartDecisionLoop():
     "q: Quit.\n" + 
     "a: Add player.\n" + 
     "g: Get database.\n" +
+    "p: Plot database graph.\n" +
     "s: Setup game.\n" + 
     "f: Enter who won the game.\n"
     "r: Read player db from file.\n"
@@ -49,6 +50,10 @@ def StartDecisionLoop():
   elif val == 'g':
     print("Current database: ")
     db.PrintDatabaseSortedByElo()
+
+  elif val == 'p':
+    print("Creating graphs from database.")
+    db.GenerateGraphs()
 
   elif val == 's':
     print ("Starting game setup.")
