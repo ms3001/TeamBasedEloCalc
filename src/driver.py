@@ -1,6 +1,7 @@
 import pickle
 import itertools
 import sys
+import csv
 
 from league_scraper_v1 import scrapeMatchHistoryUrl
 from league_scraper_v1 import scrapeMatchHistoryUrlList
@@ -65,6 +66,10 @@ def StartDecisionLoop():
     val = input("Enter filename to write to:\n")
     WriteToFile(val)
 
+  elif val == 'wc':
+    val = input("Enter filename to write to:\n")
+    WriteToCsv(val)
+
   elif val == 't':
     print("Initializing for testing.")
     TestingSetup()
@@ -93,6 +98,16 @@ def ReadFromFile(filename):
 def WriteToFile(filename):
   print("Attempting to write to file: " + filename)
   pickle.dump(db, open( filename, "wb" ) )
+
+def WriteToCsv(filename):
+  print("Attempting to write to csv file: " + filename)
+  writer = csv.writer(open(filename, 'w', newline=''))
+  for player in db.players.values():
+    row = [player.name]
+    row.append(player.eloList)
+    writer.writerow(row)
+
+
 
 def AddPlayer(player):
   print("Attempting to add " + player + " to database.")
@@ -188,10 +203,17 @@ def ScrapeGameList():
 
   matchListData = scrapeMatchHistoryUrlList(usernametext, passwordtext, urlList)
 
+  matchnum = 0
   for match in matchListData:
+    matchnum += 1
     for player in match[1]:
       db.AddNewPlayer(player)
     SimulateGame(match)
+    for player in db.players.values():
+      if (player.eloList == []):
+        for i in range(0, matchnum):
+          player.eloList.append(1000)
+      player.eloList.append(player.elo)
 
 def SimulateGame(match):
   global game

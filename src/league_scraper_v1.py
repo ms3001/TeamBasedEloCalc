@@ -6,6 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import InvalidSessionIdException
 from bs4 import BeautifulSoup
 
 def scrapeMatchHistoryUrl(usernametext, passwordtext, matchUrl):
@@ -124,7 +125,7 @@ def scrapeMatchHistoryUrlList(usernametext, passwordtext, matchUrlList):
 				browser.get(url)
 			except AttributeError as error:
 				print(error)
-				print("tweet had not loaded? Reloading")
+				print("page had not loaded? Reloading")
 				browser.get(url)
 
 		playersList = []
@@ -146,7 +147,8 @@ def scrapeMatchHistoryUrlList(usernametext, passwordtext, matchUrlList):
 		resultList.append(winner) #resultList[0] = winner
 		resultList.append(playersList) #resultList[1] = playersList (first 5 players are team 1)
 		finalresultList.append(resultList)
-		browser.close()
+
+	browser.close()
 	return finalresultList
 
 
