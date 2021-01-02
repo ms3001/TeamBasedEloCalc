@@ -43,7 +43,11 @@ class Database:
       raise IndexError("Player Not Found")
 
   def PrintDatabaseSortedByElo(self):
-    plist = list(self.players.values())
+    #plist = list(self.players.values())
+    plist = []
+    for player in self.players:
+      if self.players[player].games_played > 1:
+        plist.append(self.players[player])
     plist.sort(key=lambda x: x.elo, reverse=True)
     for p in plist:
       p.PrintPlayer()
